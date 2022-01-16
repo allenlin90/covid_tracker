@@ -1,0 +1,28 @@
+:root {
+  --background: #012d5e;
+  --font-color: #ffffff;
+  --blue: #5882e3;
+  --light-blue: #254870;
+  --yellow: #ffc107;
+  --red: #dc3545;
+  --white: #fff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+* {
+  /* imported in index.html */
+  font-family: 'Roboto Slab';
+  background: var(--background);
+  color: var(--font-color);
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+/*# sourceMappingURL=style.css.map */

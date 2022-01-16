@@ -1,0 +1,67 @@
+.form_wrapper {
+  position: relative;
+}
+
+.patient_form {
+  border: 2px var(--light-blue) solid;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2rem;
+  padding: 2rem 1.5rem;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem;
+}
+
+.edit_btn {
+  margin-left: 0.5rem;
+  &,
+  & * {
+    transition: all ease-out 0.3s;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    i {
+      transform: translateY(-3px);
+      color: var(--yellow);
+    }
+  }
+}
+
+.clear_btn {
+  i {
+    background-color: inherit;
+  }
+}
+
+.upper_right {
+  display: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+
+  i {
+    background-color: inherit;
+  }
+}
+
+@media (max-width: 576px) {
+  .patient_form {
+    grid-template-columns: 1fr;
+  }
+
+  .upper_right {
+    display: inline-block;
+  }
+
+  .patient_remover_bg {
+    display: none;
+  }
+}

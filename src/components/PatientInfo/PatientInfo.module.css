@@ -1,0 +1,77 @@
+.form_wrapper {
+  position: relative;
+}
+
+.patient_form {
+  border: 2px var(--light-blue) solid;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[3];
+      grid-template-columns: repeat(3, 1fr);
+  -webkit-column-gap: 2rem;
+          column-gap: 2rem;
+  padding: 2rem 1.5rem;
+  position: relative;
+}
+
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 1rem;
+}
+
+.edit_btn {
+  margin-left: 0.5rem;
+}
+
+.edit_btn,
+.edit_btn * {
+  -webkit-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
+}
+
+.edit_btn:hover {
+  cursor: pointer;
+}
+
+.edit_btn:hover i {
+  -webkit-transform: translateY(-3px);
+          transform: translateY(-3px);
+  color: var(--yellow);
+}
+
+.clear_btn i {
+  background-color: inherit;
+}
+
+.upper_right {
+  display: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.upper_right i {
+  background-color: inherit;
+}
+
+@media (max-width: 576px) {
+  .patient_form {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+  .upper_right {
+    display: inline-block;
+  }
+  .patient_remover_bg {
+    display: none;
+  }
+}
+/*# sourceMappingURL=PatientInfo.module.css.map */
