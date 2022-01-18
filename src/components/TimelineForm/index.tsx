@@ -1,12 +1,28 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
 import style from './TimelineForm.module.css';
+
+import { Modal } from '../Modal';
+
+import { createEvent, Event, Patient } from '../../store/actions';
+import { StoreState } from '../../store/reducers';
 
 export interface LocationType {
   name: string;
   value: string;
 }
 
-export const TimelineForm = (): JSX.Element => {
+export interface TimeLineFormProps {
+  selectedPatient: Patient | null;
+  hideConfirmBtn?: boolean;
+  createEvent: Function;
+}
+
+const _TimelineForm = ({
+  selectedPatient,
+  createEvent,
+  hideConfirmBtn = false,
+}: TimeLineFormProps): JSX.Element => {
   const [disabled, setDisabled] = useState(false);
   const [nameRequired, setNameRequired] = useState(false); // check if location name is required
 
@@ -27,22 +43,34 @@ export const TimelineForm = (): JSX.Element => {
     });
   };
 
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const dateFrom = formData.get('dateFrom');
-    const dateTo = formData.get('dateTo');
+    const timeFrom = formData.get('dateFrom');
+    const timeTo = formData.get('dateTo');
     const detail = formData.get('detail');
     const locationType = formData.get('locationType');
     const locationName = formData.get('locationName');
 
-    console.log('sumbit');
+    const response = await createEvent({
+      timeFrom,
+      timeTo,
+      detail,
+      locationType,
+      locationName,
+    });
+
+    if (response) {
+    }
   };
 
   return (
     <form
-      className={`${style.timeline_form} ${style.form_display}`}
+      className={`${style.timeline_form} ${style.form_display} ${
+        hideConfirmBtn ? style.grid_3_row : ''
+      }`}
       onSubmit={submitHandler}
+      id="create_event"
     >
       <div className={style.date_from}>
         <label className="form-label" htmlFor="dateFrom">
@@ -103,7 +131,11 @@ export const TimelineForm = (): JSX.Element => {
           disabled={nameRequired}
         />
       </div>
-      <div className={style.submit_btn}>
+      <div
+        className={`${style.submit_btn} ${
+          hideConfirmBtn ? style.display_none : ''
+        }`}
+      >
         <button className={`btn btn-warning`} type="submit">
           + Add Entry
         </button>
@@ -111,3 +143,13 @@ export const TimelineForm = (): JSX.Element => {
     </form>
   );
 };
+
+const mapStateToProps = (
+  state: StoreState,
+): { selectedPatient: Patient | null } => {
+  return { selectedPatient: state.selectedPatient };
+};
+
+export const TimelineForm = connect(mapStateToProps, { createEvent })(
+  _TimelineForm,
+);

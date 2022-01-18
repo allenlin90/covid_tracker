@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,MAAM,EAAE,SAAS,EAAE,KAAK;EACtB,AAAA,mBAAmB,CAAC;IAClB,OAAO,EAAE,IAAI;GACd",
+    "sources": [
+        "LargeBtn.module.scss"
+    ],
+    "names": [],
+    "file": "LargeBtn.module.css"
+}

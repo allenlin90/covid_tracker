@@ -1,0 +1,118 @@
+.nav {
+  &_tabs {
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+    padding: 0;
+    margin: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      height: 2px;
+      width: 100%;
+      background: var(--light-blue);
+    }
+  }
+
+  &_items {
+    list-style: none;
+    padding: 1rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0.6rem;
+    border: 1px solid var(--light-blue);
+    border-bottom: none;
+    transition: all ease-in 0.2s;
+    width: 7rem;
+
+    &_extra {
+      width: 3rem;
+      border: none;
+    }
+
+    span {
+      display: block;
+      align-items: center;
+
+      &:nth-child(2) {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin: 0.4rem;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+      filter: opacity(0.7);
+
+      &.active {
+        filter: opacity(1);
+      }
+    }
+  }
+}
+
+.active {
+  position: relative;
+  z-index: 1;
+
+  & * {
+    color: var(--yellow);
+  }
+}
+
+.add_patient {
+  position: relative;
+  background: var(--light-blue);
+  border-radius: 100%;
+  width: 3rem;
+  height: 3rem;
+
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--background);
+  }
+
+  &:before {
+    height: 1.4rem;
+    width: 4px;
+  }
+
+  &:after {
+    width: 1.4rem;
+    height: 4px;
+  }
+}
+
+.hide {
+  display: none;
+}
+
+.display {
+  &_block {
+    display: block;
+  }
+
+  &_flex {
+    display: flex;
+  }
+
+  &_none {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .nav_tabs {
+    // display: none;
+  }
+}

@@ -1,22 +1,50 @@
-import { useState } from 'react';
+import { reverse } from 'dns';
+import React, { useState, useEffect } from 'react';
+
+import style from './Modal.module.css';
 
 interface ModalProps {
+  show: boolean;
+  placeHolder?: boolean;
   trigger?: JSX.Element;
-  triggerText?: string;
   title?: string;
   content?: JSX.Element | string;
   confirmBtn?: JSX.Element;
-  active?: Boolean;
+  closeModal: Function;
+  persist?: boolean;
+  children?: React.ReactElement | never[];
 }
 
 export const Modal = ({
+  show = false,
   trigger,
+  placeHolder = false,
   title = 'Modal title',
   content = '...',
   confirmBtn,
-  active = false,
+  closeModal,
+  persist = false,
+  children,
 }: ModalProps): JSX.Element => {
-  const [isActive, setActive] = useState(active);
+  const [dialogTimeout, setDialogTimeout] = useState(400);
+  const [showDialog, setShowDialog] = useState(false);
+
+  // removal transition
+  useEffect(() => {
+    if (show) {
+      setShowDialog(show);
+    } else {
+      setTimeout(() => {
+        setShowDialog(show);
+      }, dialogTimeout);
+    }
+  }, [show]);
+
+  const closeByBackdrop = () => {
+    if (!persist) {
+      closeModal(false);
+    }
+  };
 
   const modalTrigger = (): JSX.Element => {
     if (trigger) return trigger;
@@ -34,42 +62,32 @@ export const Modal = ({
   };
 
   return (
-    <div>
-      {modalTrigger()}
-      <div
-        className="modal fade"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex={-1}
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-        id="theModal"
-      >
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">{title}</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">{content}</div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              {confirmBtn}
-            </div>
-          </div>
-        </div>
+    <>
+      <div className={showDialog ? style.display : style.hide}>
+        <div className={style.backdrop} onClick={closeByBackdrop}></div>
+        <dialog
+          open
+          className={`${style.dialog} ${style.slide} ${
+            show ? style.slideDown : style.slideUp
+          }`}
+        >
+          <header className={style.header}>{title}</header>
+          <section className={style.section}>{children}</section>
+          <menu className={style.menu}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => closeModal(false)}
+            >
+              Close
+            </button>
+            {confirmBtn}
+          </menu>
+        </dialog>
       </div>
-    </div>
+      <div className={show ? style.hide : style.display}>
+        {placeHolder ? modalTrigger() : ''}
+      </div>
+    </>
   );
 };

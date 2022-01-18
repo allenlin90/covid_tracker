@@ -66,30 +66,31 @@ export const fetchPatients = (id: string = '') => {
 export const createPatient = (patient: Patient) => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.post('/patient', {
-        data: patient,
-      });
-
-      if (response.status !== 200) {
-        throw new Error(response.data.message);
-      }
+      const response = await axios.post('/patient', patient);
 
       dispatch<CreatePatientAction>({
         type: ActionTypes.createPatient,
         payload: response.data.data.patient,
       });
+
+      return response;
     } catch (error) {
       console.warn('something went wrong when creating a patient');
       console.warn(error);
     }
+
+    return false;
   };
 };
 
 export const updatePatient = (patient: Patient) => {
   return async (dispatch: Dispatch) => {
     try {
+      const { age, occupation, gender } = patient;
       const response = await axios.patch(`/patient/${patient._id}`, {
-        data: patient,
+        age,
+        occupation,
+        gender,
       });
 
       if (response.status !== 200) {
@@ -98,12 +99,16 @@ export const updatePatient = (patient: Patient) => {
 
       dispatch<UpdatePatientAction>({
         type: ActionTypes.updatePatient,
-        payload: response.data.data.patient,
+        payload: response.data.data.updated,
       });
+
+      return response;
     } catch (error) {
       console.warn('something went wrong when updating a patient');
       console.warn(error);
     }
+
+    return false;
   };
 };
 
@@ -120,9 +125,13 @@ export const deletePatient = (id: string) => {
         type: ActionTypes.deletePatient,
         payload: id,
       });
+
+      return response;
     } catch (error) {
       console.warn('something went wrong when deleting a patient');
       console.warn(error);
     }
+
+    return false;
   };
 };

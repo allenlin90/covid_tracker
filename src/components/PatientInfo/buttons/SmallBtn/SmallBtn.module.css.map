@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,YAAY,CAAC;EACX,OAAO,EAAE,IAAI;EACb,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,MAAM;EACX,KAAK,EAAE,MAAM;CAKd;;AATD,AAME,YANU,CAMV,CAAC,CAAC;EACA,gBAAgB,EAAE,OAAO;CAC1B;;AAGH,MAAM,EAAE,SAAS,EAAE,KAAK;EACtB,AAAA,YAAY,CAAC;IACX,OAAO,EAAE,YAAY;GACtB",
+    "sources": [
+        "SmallBtn.module.scss"
+    ],
+    "names": [],
+    "file": "SmallBtn.module.css"
+}

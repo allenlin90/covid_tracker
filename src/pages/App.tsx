@@ -48,11 +48,39 @@ class _App extends Component<AppProps> {
           <div className="col-12">
             <h2 className={style.timeline}>Timeline</h2>
           </div>
-          <div className="col-7 col-sm-12">
+          <div className="col-12 col-md-6 col-lg-7">
             <Timeline />
           </div>
-          <div className="col-5">
-            <TimelineForm />
+          <div className="col-12 col-md-6 col-lg-5">
+            <div className={`accordion ${style.accordion_form}`}>
+              <div className="accordion-item">
+                <h2 className="accordion-header" id="headingOne">
+                  <button
+                    className={`accordion-button ${style.bg_blue}`}
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  >
+                    Create Event
+                  </button>
+                </h2>
+                <div
+                  id="collapseOne"
+                  className="accordion-collapse collapse show"
+                  aria-labelledby="headingOne"
+                  data-bs-parent="#accordionExample"
+                >
+                  <div className="accordion-body">
+                    <TimelineForm />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={`${style.event_form}`}>
+              <TimelineForm />
+            </div>
           </div>
         </div>
       </div>

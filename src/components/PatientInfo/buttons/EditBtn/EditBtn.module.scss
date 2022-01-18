@@ -1,0 +1,18 @@
+.edit_btn {
+  margin-left: 0.5rem;
+  &,
+  & * {
+    transition: all ease-out 0.3s;
+    // color: var(--red);
+    color: var(--white);
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    i {
+      transform: translateY(-3px);
+      color: var(--yellow);
+    }
+  }
+}

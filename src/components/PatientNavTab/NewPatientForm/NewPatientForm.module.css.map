@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AACE,UADQ,CACR,CAAC,CAAC;EACA,gBAAgB,EAAE,OAAO;CAC1B;;AAGH,AAAA,aAAa,CAAC;EACZ,OAAO,EAAE,IAAI;CACd;;AAED,AAAA,cAAc,CAAC;EACb,OAAO,EAAE,KAAK;CACf;;AAED,AAAA,aAAa,CAAC;EACZ,OAAO,EAAE,IAAI;CACd",
+    "sources": [
+        "NewPatientForm.module.scss"
+    ],
+    "names": [],
+    "file": "NewPatientForm.module.css"
+}

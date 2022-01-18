@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,SAAS,CAAC;EACR,WAAW,EAAE,MAAM;CAgBpB;;AAjBD,AAEE,SAFO;AAAT,SAAS,CAGL,CAAC,CAAC;EACF,UAAU,EAAE,iBAAiB;EAE7B,KAAK,EAAE,YAAY;CACpB;;AAPH,AASE,SATO,AASN,MAAM,CAAC;EACN,MAAM,EAAE,OAAO;CAMhB;;AAhBH,AAYI,SAZK,AASN,MAAM,CAGL,CAAC,CAAC;EACA,SAAS,EAAE,gBAAgB;EAC3B,KAAK,EAAE,aAAa;CACrB",
+    "sources": [
+        "EditBtn.module.scss"
+    ],
+    "names": [],
+    "file": "EditBtn.module.css"
+}

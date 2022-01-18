@@ -27,51 +27,33 @@
   margin: 1rem;
 }
 
-.edit_btn {
-  margin-left: 0.5rem;
-}
-
-.edit_btn,
-.edit_btn * {
-  -webkit-transition: all ease-out 0.3s;
-  transition: all ease-out 0.3s;
-}
-
-.edit_btn:hover {
-  cursor: pointer;
-}
-
-.edit_btn:hover i {
-  -webkit-transform: translateY(-3px);
-          transform: translateY(-3px);
-  color: var(--yellow);
-}
-
 .clear_btn i {
   background-color: inherit;
 }
 
-.upper_right {
-  display: none;
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+.delete_btn i,
+.delete_btn span {
+  background-color: inherit;
 }
 
-.upper_right i {
-  background-color: inherit;
+.display_block {
+  display: block;
+}
+
+.display_flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.display_none {
+  display: none;
 }
 
 @media (max-width: 576px) {
   .patient_form {
     -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
-  }
-  .upper_right {
-    display: inline-block;
-  }
-  .patient_remover_bg {
-    display: none;
   }
 }
 /*# sourceMappingURL=PatientInfo.module.css.map */

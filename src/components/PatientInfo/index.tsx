@@ -1,7 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 
-import { Patient, updatePatient, deletePatient } from '../../store/actions';
+import {
+  Patient,
+  fetchPatients,
+  updatePatient,
+  deletePatient,
+} from '../../store/actions';
+
+import { Modal } from '../Modal';
+import { Spinner } from '../Spinner';
+import { EditBtn } from './buttons/EditBtn';
+import { LargeBtn } from './buttons/LargeBtn';
+import { SmallBtn } from './buttons/SmallBtn';
+import { PatientCard } from './PatientCard';
 
 import App_style from '../../pages/App.module.css';
 import style from './PatientInfo.module.css';
@@ -9,40 +21,61 @@ import { StoreState } from '../../store/reducers';
 
 interface PatientInfoProps {
   selectedPatient: Patient | null;
+  fetchPatients: Function;
+  updatePatient: Function;
+  deletePatient: Function;
 }
 
 const _PatientInfo = (props: PatientInfoProps): JSX.Element => {
-  const jobInput = useRef(document.createElement('input'));
+  const { fetchPatients, updatePatient, deletePatient } = props;
+  const jobInput = useRef<HTMLInputElement>(null);
+
+  // states
+  const [showModal, setShowModal] = useState(false);
+  const [isRequestSent, setIsRequestSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRequestDone, setIsRequestDone] = useState(false);
   const [canEdit, setcanEdit] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const [updateType, setUpdateType] = useState('delete');
   const [formData, setFormData] = useState({
+    _id: props.selectedPatient ? props.selectedPatient?._id : '',
     gender: props.selectedPatient ? props.selectedPatient.gender : 'female',
     age: props.selectedPatient ? props.selectedPatient.age : 0,
     occupation: props.selectedPatient ? props.selectedPatient.occupation : '',
   } as Patient);
 
+  // life cyecle hook
   useEffect(() => {
     if (props.selectedPatient) {
-      const { age, occupation, gender } = props.selectedPatient;
-      setFormData({
-        gender,
-        occupation,
-        age,
-      });
+      setFormData({ ...props.selectedPatient });
     }
   }, [props.selectedPatient]);
 
-  const createPatient = (formData?: Patient): void => {
-    console.log(formData);
-  };
+  useEffect(() => {
+    // check if the user wants to update or delete patient data
+    if (canEdit) {
+      setUpdateType('update');
+    } else {
+      setUpdateType('delete');
+    }
+  }, [canEdit]);
+
+  useEffect(() => {
+    // check if patient data is changed
+    const { gender, age, occupation } = formData;
+    if (
+      (gender !== props.selectedPatient?.gender && gender) ||
+      (age !== props.selectedPatient?.age && age) ||
+      (occupation !== props.selectedPatient?.occupation && occupation)
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [formData]);
 
   // below are event handlers
-
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log('create new patient');
-    createPatient(formData);
-  };
-
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
   ): void => {
@@ -67,96 +100,172 @@ const _PatientInfo = (props: PatientInfoProps): JSX.Element => {
     setFormData({ ...formData, gender });
   };
 
-  const editPatientInfoHandler = () => {
-    setcanEdit(!canEdit);
+  const removePatientHandler = async () => {
+    setIsLoading(true);
+    setIsRequestSent(true);
+    const response = await deletePatient(props.selectedPatient?._id);
+    setIsLoading(false);
+
+    if (response) {
+      setIsRequestDone(true);
+    }
   };
 
-  const removePatientHandler = () => {
-    console.log('remove patient');
-  };
-
-  const confirmEditHandler = () => {
-    setcanEdit(!canEdit);
-    console.log('confirm edit');
-  };
-
-  const removeInputHandler = (event: React.MouseEvent) => {
+  const confirmEditHandler = async (
+    event: React.TouchEvent | React.MouseEvent | React.FormEvent,
+  ) => {
     event.stopPropagation();
-    jobInput.current.value = '';
+    event.preventDefault();
+    setIsLoading(true);
+    setIsRequestSent(true);
+    const response = await updatePatient(formData);
+    setIsLoading(false);
+
+    if (response) {
+      setIsRequestDone(true);
+    }
+  };
+
+  const clearInputHandler = (event: React.TouchEvent | React.MouseEvent) => {
+    event.stopPropagation();
+    if (jobInput.current) {
+      jobInput.current.value = '';
+    }
     setFormData({ ...formData, occupation: '' });
   };
 
-  // below are smaller components in PatientInfo
+  const closeModal = () => {
+    setShowModal(false);
 
-  const editBtn = (): JSX.Element => {
-    if (canEdit) {
-      return <span></span>;
+    if (isRequestSent && !isLoading) {
+      // resest after closing modal
+      reset();
     }
-
-    return (
-      <span className={style.edit_btn} onClick={editPatientInfoHandler}>
-        <i className="far fa-edit"></i>
-      </span>
-    );
   };
 
-  const largeBtn = (): JSX.Element => {
-    if (canEdit) {
+  const modalTitle = canEdit ? 'Update Patient' : 'Remove Patient';
+
+  const confirmBtn = (): JSX.Element | undefined => {
+    if (!isRequestSent && !canEdit) {
       return (
         <button
-          className={`btn btn-success ${style.patient_remover_bg}`}
-          onClick={confirmEditHandler}
+          className={`btn btn-danger ms-3 ${style.delete_btn}`}
+          type="button"
+          onClick={removePatientHandler}
         >
-          Confirm Edit
+          <i className="fas fa-trash-alt"></i> <span>Delete</span>
         </button>
       );
     }
 
-    return (
-      <button
-        className={`btn btn-danger ${style.patient_remover_bg}`}
-        onClick={removePatientHandler}
-      >
-        Remove Patient
-      </button>
-    );
-  };
-
-  const smallBtn = (): JSX.Element => {
-    if (canEdit) {
+    if (!isRequestSent && canEdit) {
       return (
         <button
-          className={`btn btn-success ${style.upper_right}`}
-          onClick={confirmEditHandler}
+          className="btn btn-warning ms-3"
+          type="submit"
+          form="patient_info"
+          onSubmit={confirmEditHandler}
         >
-          Confirm Edit
+          Update
         </button>
       );
     }
 
-    return (
-      <button
-        className={`btn btn-danger ${style.upper_right}`}
-        onClick={removePatientHandler}
-      >
-        Remove Patient
-      </button>
-    );
+    return undefined;
+  };
+
+  const modalContent = () => {
+    if (!isLoading && !isRequestSent) {
+      // before sending request
+      switch (updateType) {
+        case 'delete':
+          return <PatientCard selectedPatient={props.selectedPatient} />;
+        case 'update':
+          return;
+        default:
+      }
+    } else if (!isLoading && isRequestDone) {
+      // if the request succeed
+      let message = '';
+      switch (updateType) {
+        case 'delete':
+          message = 'Patient data is deleted';
+          break;
+        case 'update':
+          message = 'Patient data is updated';
+          break;
+        default:
+      }
+
+      return (
+        <h1 className={`text-center`}>
+          <span className={`badge bg-success`}>{message}</span>
+        </h1>
+      );
+    } else if (!isLoading && isRequestSent && !isRequestDone) {
+      // if the request fails
+      return (
+        <h1 className={`text-center`}>
+          Sorry, service is currently unavailable...
+        </h1>
+      );
+    }
+
+    return undefined;
+  };
+
+  const reset = () => {
+    setShowModal(false);
+    setIsLoading(false);
+    setcanEdit(false);
+    setUpdateType('delete');
+    setFormData({
+      _id: props.selectedPatient ? props.selectedPatient?._id : '',
+      gender: props.selectedPatient ? props.selectedPatient.gender : 'female',
+      age: props.selectedPatient ? props.selectedPatient.age : 0,
+      occupation: props.selectedPatient ? props.selectedPatient.occupation : '',
+    });
+
+    setTimeout(() => {
+      // prevent patient data render in Modal
+      setIsRequestDone(false);
+      setIsRequestSent(false);
+    }, 500);
   };
 
   return (
     <>
+      <Modal
+        title={modalTitle}
+        show={showModal}
+        closeModal={closeModal}
+        confirmBtn={confirmBtn()}
+      >
+        <>
+          <Spinner isLoading={isLoading} />
+          {modalContent()}
+        </>
+      </Modal>
       <div className={style.header}>
         <h2 className={App_style.timeline}>
           Patient Information
-          {editBtn()}
+          <EditBtn
+            canEdit={canEdit}
+            clickHandler={() => setcanEdit(!canEdit)}
+          />
         </h2>
-        <div>{largeBtn()}</div>
+        <LargeBtn
+          canEdit={canEdit}
+          disabled={disabled}
+          clickHandler={() => {
+            setShowModal(true);
+          }}
+        />
       </div>
       <div className={style.form_wrapper}>
         <form
           className={style.patient_form}
-          onSubmit={submitHandler}
+          onSubmit={confirmEditHandler}
           id="patient_info"
         >
           <div>
@@ -210,16 +319,20 @@ const _PatientInfo = (props: PatientInfoProps): JSX.Element => {
                 ref={jobInput}
               />
               <button
-                className="btn btn-secondary"
+                className={`btn btn-secondary ${canEdit ? '' : 'disabled'}`}
                 type="button"
-                onClick={removeInputHandler}
+                onClick={clearInputHandler}
               >
                 <i className="fas fa-times"></i>
               </button>
             </div>
           </div>
         </form>
-        {smallBtn()}
+        <SmallBtn
+          canEdit={canEdit}
+          disabled={disabled}
+          clickHandler={() => setShowModal(true)}
+        />
       </div>
     </>
   );
@@ -234,4 +347,5 @@ const mapStateToProps = (
 export const PatientInfo = connect(mapStateToProps, {
   updatePatient,
   deletePatient,
+  fetchPatients,
 })(_PatientInfo);

@@ -1,9 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Patient, selectPatient } from '../../store/actions';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Tabs, Tab, Button } from 'react-bootstrap';
 
 import { StoreState } from '../../store/reducers';
 import { connect } from 'react-redux';
+
+import { Modal } from '../Modal';
+import { NewPatientForm } from './NewPatientForm';
+
+import style from './PatientNavTab.module.css';
 
 interface PatientNavTabProps {
   patients: Patient[];
@@ -11,33 +16,90 @@ interface PatientNavTabProps {
   selectPatient: Function;
 }
 
-const _PatientNavTab = (props: PatientNavTabProps): JSX.Element => {
-  const [tab, setTab] = useState(0);
+const _PatientNavTab = ({
+  patients,
+  selectedPatient,
+  selectPatient,
+}: PatientNavTabProps): JSX.Element => {
+  const [showModal, setShowModal] = useState(false);
+  const [patientLimit, setPatientLimit] = useState(8);
+  const [isRequestSent, setIsRequestSent] = useState(false);
+
   // listen on changes to patients
-  useEffect(() => {}, [props.patients]);
-  useEffect(() => {}, [props.selectedPatient]);
+  useEffect(() => {
+    if (patients.length) {
+      // select the last patient in the list when it's updated
+      const patient = patients[patients.length - 1];
+      selectPatient(patient);
+    }
+  }, [patients]);
+  useEffect(() => {}, [selectedPatient]);
+
+  const confirmAdding = (): JSX.Element | undefined => {
+    if (!isRequestSent) {
+      return (
+        <button
+          className="btn btn-warning ms-3"
+          type="submit"
+          form="new_patient"
+        >
+          Create
+        </button>
+      );
+    }
+
+    return undefined;
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const onSelectPatient = (event: any, patient: Patient) => {
-    console.log('event');
-    console.log(event);
-    console.log('patient');
-    console.log(patient);
+    event.stopPropagation();
+    selectPatient(patient);
   };
 
   const renderPatientList = (): JSX.Element[] => {
-    return props.patients.map((patient: Patient, index: number) => {
+    return patients.map((patient: Patient, index: number) => {
       return (
-        <Tab
-          title={index + 1}
+        <li
+          className={`${style.nav_items} ${
+            selectedPatient?._id === patient._id ? style.active : ''
+          }`}
           key={patient._id}
-          // onClick={(event) => onSelectPatient(event, patient)}
-          onSelect={(event) => console.log('click')}
-        ></Tab>
+          onClick={(event) => onSelectPatient(event, patient)}
+        >
+          <span>Patient</span>
+          <span>{index + 1}</span>
+        </li>
       );
     });
   };
 
-  return <Tabs activeKey={tab}>{renderPatientList()}</Tabs>;
+  return (
+    <nav>
+      <Modal
+        title="Create New Patient"
+        show={showModal}
+        closeModal={closeModal}
+        confirmBtn={confirmAdding()}
+      >
+        <NewPatientForm showModal={showModal} sentRequest={setIsRequestSent} />
+      </Modal>
+      <ul className={`mt-2 ${style.nav_tabs}`}>
+        {renderPatientList()}
+        <li
+          className={`${style.nav_items} ${style.nav_items_extra} ${
+            patients.length >= patientLimit ? style.hide : ''
+          }`}
+          onClick={() => setShowModal(true)}
+        >
+          <div className={style.add_patient}>&nbsp;</div>
+        </li>
+      </ul>
+    </nav>
+  );
 };
 
 const mapStateToProps = (

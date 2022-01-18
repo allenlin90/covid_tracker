@@ -1,0 +1,118 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 10;
+}
+
+.dialog {
+  position: fixed;
+  top: 20vh;
+  left: 10%;
+  width: 80%;
+  z-index: 100;
+  border-radius: 12px;
+  border: none;
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.slide {
+  opacity: 0;
+  -webkit-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+.slideDown {
+  opacity: 1;
+  -webkit-animation-name: slideDown;
+          animation-name: slideDown;
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+}
+
+.slideUp {
+  opacity: 0;
+  -webkit-transform: translateY(-50px);
+          transform: translateY(-50px);
+}
+
+.header {
+  background-color: var(--background);
+  color: var(--font-color);
+  width: 100%;
+  padding: 1rem;
+}
+
+.header-h2 {
+  margin: 0;
+}
+
+.section {
+  padding: 1rem;
+}
+
+.menu {
+  padding: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .dialog {
+    left: calc(50% - 20rem);
+    width: 40rem;
+  }
+}
+
+.display {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+@-webkit-keyframes slideDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+/*# sourceMappingURL=Modal.module.css.map */

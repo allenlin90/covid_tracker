@@ -1,0 +1,127 @@
+.nav_tabs {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow-x: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.nav_tabs::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--light-blue);
+}
+
+.nav_items {
+  list-style: none;
+  padding: 1rem 1.6rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0 0.6rem;
+  border: 1px solid var(--light-blue);
+  border-bottom: none;
+  -webkit-transition: all ease-in 0.2s;
+  transition: all ease-in 0.2s;
+  width: 7rem;
+}
+
+.nav_items_extra {
+  width: 3rem;
+  border: none;
+}
+
+.nav_items span {
+  display: block;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.nav_items span:nth-child(2) {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0.4rem;
+}
+
+.nav_items:hover {
+  cursor: pointer;
+  -webkit-filter: opacity(0.7);
+          filter: opacity(0.7);
+}
+
+.nav_items:hover.active {
+  -webkit-filter: opacity(1);
+          filter: opacity(1);
+}
+
+.active {
+  position: relative;
+  z-index: 1;
+}
+
+.active * {
+  color: var(--yellow);
+}
+
+.add_patient {
+  position: relative;
+  background: var(--light-blue);
+  border-radius: 100%;
+  width: 3rem;
+  height: 3rem;
+}
+
+.add_patient:after, .add_patient:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background: var(--background);
+}
+
+.add_patient:before {
+  height: 1.4rem;
+  width: 4px;
+}
+
+.add_patient:after {
+  width: 1.4rem;
+  height: 4px;
+}
+
+.hide {
+  display: none;
+}
+
+.display_block {
+  display: block;
+}
+
+.display_flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.display_none {
+  display: none;
+}
+/*# sourceMappingURL=PatientNavTab.module.css.map */

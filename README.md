@@ -103,9 +103,11 @@
 2. The App could be SSR (server-side rendering) to prevent showing JSON dataset during request directly. It can make parsing and extracting harder. Besides, though Google Crawler has similar behavior to `Puppeteer.js` that can mock human behevior and read data from JS code, SSR Apps still have better SEO performance in general.
 
 ## 5.3. UI and design 
-1. Improve transition and animation for components and during userflow.
-2. `React router` could be used when more features are brought in.
-3. Though the UIs are responsive, the design is more desktop-oriented which can be improved for mobile users.
+1. Add more transition and animation for components and during userflow.
+2. `Modal` component can be refined and add key escape feature.
+3. `React router` could be used when more features are brought in.
+4. Mouse and scrolling effects can be added to enhance user experience.
+5. Only "Bootstrap" layout utilities and some components are used in the project. Other React component/UI library could be used according to project requirements, such as [MUI](https://mui.com/) and [Ant Design](https://ant.design/). Predefined components can cover more on the edge cases.
 
 ## 5.4. Data flow 
 1. All App data is fetched and loaded in the initated stage when the user visit the App. The data flow can be optimized for larger data set.

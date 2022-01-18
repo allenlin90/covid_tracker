@@ -14,6 +14,10 @@
   }
 }
 
+.grid_3_row {
+  grid-template-rows: 1fr 2fr 1fr;
+}
+
 .form_display {
   display: grid;
 }
@@ -54,8 +58,22 @@
   }
 }
 
-@media (max-width: 768px) {
-  .form_display {
+.display {
+  &_block {
+    display: block;
+  }
+  &_flex {
+    display: flex;
+  }
+  &_none {
     display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .timeline_form {
+    // display: none;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(fit-content, 1fr);
   }
 }

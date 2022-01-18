@@ -1,0 +1,16 @@
+.upper_right {
+  display: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+
+  i {
+    background-color: inherit;
+  }
+}
+
+@media (max-width: 576px) {
+  .upper_right {
+    display: inline-block;
+  }
+}

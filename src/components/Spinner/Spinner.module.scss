@@ -1,0 +1,11 @@
+.display {
+  &_block {
+    display: block;
+  }
+  &_flex {
+    display: flex;
+  }
+  &_none {
+    display: none;
+  }
+}

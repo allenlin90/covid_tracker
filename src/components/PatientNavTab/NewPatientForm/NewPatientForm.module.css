@@ -1,0 +1,18 @@
+.clear_btn i {
+  background-color: inherit;
+}
+
+.display_flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.display_block {
+  display: block;
+}
+
+.display_none {
+  display: none;
+}
+/*# sourceMappingURL=NewPatientForm.module.css.map */

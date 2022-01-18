@@ -14,15 +14,15 @@ import {
 } from './patients';
 
 export enum ActionTypes {
-  selectPatient,
-  fetchPatients,
-  createPatient,
-  updatePatient,
-  deletePatient,
-  fetchEvents,
-  createEvent,
-  updateEvent,
-  deleteEvent,
+  selectPatient = 'SELECT_PATIENT',
+  fetchPatients = 'FETCH_PATIENTS',
+  createPatient = 'CREATE_PATIENT',
+  updatePatient = 'UPDATE_PATIENT',
+  deletePatient = 'DELETE_PATIENT',
+  fetchEvents = 'FETCH_EVENTS',
+  createEvent = 'CREATE_EVENT',
+  updateEvent = 'UPDATE_EVENT',
+  deleteEvent = 'DELETE_EVENT',
 }
 
 export type EventActions =

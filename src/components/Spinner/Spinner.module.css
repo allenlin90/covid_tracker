@@ -1,0 +1,14 @@
+.display_block {
+  display: block;
+}
+
+.display_flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.display_none {
+  display: none;
+}
+/*# sourceMappingURL=Spinner.module.css.map */

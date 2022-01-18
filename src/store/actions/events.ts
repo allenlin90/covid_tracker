@@ -54,9 +54,7 @@ export const fetchEvents = (id: string = '') => {
 export const createEvent = (event: Event = {}) => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.post('/event', {
-        data: event,
-      });
+      const response = await axios.post('/event', event);
 
       if (response.status !== 200) {
         throw new Error(response.data.message);
@@ -76,9 +74,7 @@ export const createEvent = (event: Event = {}) => {
 export const updateEvent = (event: Event = {}) => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.patch(`/event/${event._id}`, {
-        data: event,
-      });
+      const response = await axios.patch(`/event/${event._id}`, event);
 
       if (response.status !== 200) {
         throw new Error(response.data.message);

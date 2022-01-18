@@ -1,0 +1,17 @@
+.upper_right {
+  display: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.upper_right i {
+  background-color: inherit;
+}
+
+@media (max-width: 576px) {
+  .upper_right {
+    display: inline-block;
+  }
+}
+/*# sourceMappingURL=SmallBtn.module.css.map */
