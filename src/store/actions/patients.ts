@@ -48,7 +48,7 @@ export const fetchPatients = (id: string = '') => {
     try {
       const response = await axios.get(`/patient/${id}`);
 
-      if (response.status !== 200) {
+      if (response.status !== 200 && response.status !== 201) {
         throw new Error(response.data.message);
       }
 

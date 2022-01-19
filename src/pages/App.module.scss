@@ -5,40 +5,10 @@
   font-weight: bold;
 }
 
-.bg_blue {
-  &,
-  &:not(.collapsed) {
-    background: var(--background);
-    color: var(--white);
-  }
-
-  &::after {
-    color: var(--white);
-  }
-}
-
 .timeline {
   color: var(--yellow);
   padding: 1.5rem;
   display: block;
   padding: 0;
   margin: 1rem;
-}
-
-.accordion_form {
-  display: none;
-}
-
-.event_form {
-  display: block;
-}
-
-@media (max-width: 768px) {
-  .event_form {
-    display: none;
-  }
-
-  .accordion_form {
-    display: block;
-  }
 }

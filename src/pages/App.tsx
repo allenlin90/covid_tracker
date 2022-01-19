@@ -6,7 +6,7 @@ import { StoreState } from '../store/reducers';
 import { PatientNavTab } from '../components/PatientNavTab';
 import { PatientInfo } from '../components/PatientInfo';
 import { Timeline } from '../components/Timeline';
-import { TimelineForm } from '../components/TimelineForm';
+import { EventForm } from '../components/EventForm';
 
 import '../assests/style.css';
 import style from './App.module.css';
@@ -52,35 +52,7 @@ class _App extends Component<AppProps> {
             <Timeline />
           </div>
           <div className="col-12 col-md-6 col-lg-5">
-            <div className={`accordion ${style.accordion_form}`}>
-              <div className="accordion-item">
-                <h2 className="accordion-header" id="headingOne">
-                  <button
-                    className={`accordion-button ${style.bg_blue}`}
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne"
-                    aria-expanded="true"
-                    aria-controls="collapseOne"
-                  >
-                    Create Event
-                  </button>
-                </h2>
-                <div
-                  id="collapseOne"
-                  className="accordion-collapse collapse show"
-                  aria-labelledby="headingOne"
-                  data-bs-parent="#accordionExample"
-                >
-                  <div className="accordion-body">
-                    <TimelineForm />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={`${style.event_form}`}>
-              <TimelineForm />
-            </div>
+            <EventForm />
           </div>
         </div>
       </div>

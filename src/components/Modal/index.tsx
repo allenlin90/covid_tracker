@@ -9,7 +9,7 @@ interface ModalProps {
   trigger?: JSX.Element;
   title?: string;
   content?: JSX.Element | string;
-  confirmBtn?: JSX.Element;
+  confirmBtn?: JSX.Element | null;
   closeModal: Function;
   persist?: boolean;
   children?: React.ReactElement | never[];

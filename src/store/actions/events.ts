@@ -44,10 +44,14 @@ export const fetchEvents = (id: string = '') => {
         type: ActionTypes.fetchEvents,
         payload: response.data.data.events,
       });
+
+      return response;
     } catch (error) {
       console.warn('something went wrong when fetching events');
       console.warn(error);
     }
+
+    return false;
   };
 };
 
@@ -56,7 +60,7 @@ export const createEvent = (event: Event = {}) => {
     try {
       const response = await axios.post('/event', event);
 
-      if (response.status !== 200) {
+      if (response.status !== 201 && response.status !== 200) {
         throw new Error(response.data.message);
       }
 
@@ -64,10 +68,14 @@ export const createEvent = (event: Event = {}) => {
         type: ActionTypes.createEvent,
         payload: response.data.data.event,
       });
+
+      return response;
     } catch (error) {
       console.warn('something went wrong when creating an event');
       console.warn(error);
     }
+
+    return false;
   };
 };
 
@@ -84,10 +92,14 @@ export const updateEvent = (event: Event = {}) => {
         type: ActionTypes.updateEvent,
         payload: response.data.data.event,
       });
+
+      return response;
     } catch (error) {
       console.warn('something went wrong when updating an event');
       console.warn(error);
     }
+
+    return false;
   };
 };
 
@@ -104,9 +116,13 @@ export const deleteEvent = (id: string = '') => {
         type: ActionTypes.deleteEvent,
         payload: id,
       });
+
+      return response;
     } catch (error) {
       console.warn('something went wrong when deleting an event');
       console.warn(error);
     }
+
+    return false;
   };
 };

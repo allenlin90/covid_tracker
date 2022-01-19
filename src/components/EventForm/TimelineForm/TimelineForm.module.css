@@ -18,6 +18,12 @@
   white-space: nowrap;
 }
 
+.bg_blue,
+.bg_blue * {
+  background-color: var(--light-blue);
+  color: var(--white);
+}
+
 .grid_3_row {
   -ms-grid-rows: 1fr 2fr 1fr;
       grid-template-rows: 1fr 2fr 1fr;
@@ -70,6 +76,10 @@
 
 .display_none {
   display: none;
+}
+
+.red_text {
+  color: var(--yellow);
 }
 
 @media (max-width: 768px) {

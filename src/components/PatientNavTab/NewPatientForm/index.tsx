@@ -44,7 +44,6 @@ export const _NewPatientForm = ({
   const genderSelect = useRef<HTMLSelectElement>(null);
 
   const reset = () => {
-    console.log('reset');
     setFormData(patientInit);
     setIsLoading(false);
     setIsRequestSent(false);
