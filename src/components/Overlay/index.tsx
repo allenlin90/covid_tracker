@@ -11,9 +11,6 @@ export interface OverlayProps {
 }
 
 const _Overlay = ({ showOverlay }: OverlayProps): JSX.Element => {
-  useEffect(() => {
-    console.log(showOverlay);
-  }, [showOverlay]);
   return (
     <div
       className={`${style.backdrop}`}

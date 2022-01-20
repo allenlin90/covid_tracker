@@ -19,6 +19,7 @@ export interface TimeLineFormProps {
   selectedPatient: Patient | null;
   hideConfirmBtn?: boolean;
   createEvent: Function;
+  events: Event[];
 }
 
 export interface EventFormData {
@@ -29,10 +30,16 @@ export interface EventFormData {
   location: string;
 }
 
+export interface TimeRange {
+  to: number;
+  from: number;
+}
+
 const _TimelineForm = ({
   selectedPatient,
   createEvent,
   hideConfirmBtn = false,
+  events,
 }: TimeLineFormProps): JSX.Element => {
   const orgFormData = {
     timeFrom: '',
@@ -51,6 +58,8 @@ const _TimelineForm = ({
   const [formData, setFormData] = useState<EventFormData>(orgFormData);
   const [validInput, setValidInput] = useState<boolean>(false);
   const [invalidToTime, setInvalidToTime] = useState<boolean>(false);
+  const [invalidFromTime, setInvalidFromTime] = useState<boolean>(false);
+  const [timeRanges, setTimeRanges] = useState<TimeRange[] | null>(null);
 
   const locationTypes: LocationType[] = [
     { name: 'Indoor', value: 'indoor' },
@@ -60,12 +69,36 @@ const _TimelineForm = ({
   ];
 
   useEffect(() => {
+    // check all time ranges in the event
+    const patientEvents = events.filter(
+      (event: Event) => event.patient_id === selectedPatient?._id,
+    );
+    const patientTimeRanges = patientEvents.map((event: Event) => {
+      const { timeFrom, timeTo } = event;
+
+      const from = new Date(timeFrom).getTime();
+      const to = new Date(timeTo).getTime();
+
+      return { to, from };
+    });
+
+    setTimeRanges(patientTimeRanges);
+  }, [selectedPatient]);
+
+  useEffect(() => {
+    // check if all inputs are valid and ready to proceed
     const { timeFrom, timeTo, detail, location, locationType } = formData;
 
     if (timeFrom && timeTo && detail && locationType) {
+      const { invalidToTime, invalidFromTime } = isTimeInvalid({
+        timeRanges,
+        timeTo: formData.timeTo,
+        timeFrom: formData.timeFrom,
+      });
       if (
         (!nameRequired || (nameRequired && location)) &&
-        !isTimeInvalid(formData)
+        !invalidToTime &&
+        !invalidFromTime
       ) {
         setValidInput(true);
         return;
@@ -75,6 +108,8 @@ const _TimelineForm = ({
   }, [formData]);
 
   useEffect(() => {
+    // after sending request
+    // reset all data after user close the modal
     if (isRequestSent && !showModal) {
       reset();
     }
@@ -100,19 +135,42 @@ const _TimelineForm = ({
       }
     }
 
-    let invalidTime = false;
+    let wrongToTime = false;
+    let wrongFromTime = false;
     if (name === 'timeTo') {
-      invalidTime = isTimeInvalid({ [name]: value, timeFrom });
-    } else if (name === 'timeFrom' && timeTo) {
-      invalidTime = isTimeInvalid({ [name]: value, timeTo });
-    }
-    if (invalidTime) {
-      setInvalidToTime(true);
+      const { invalidToTime, invalidFromTime } = isTimeInvalid({
+        [name]: value,
+        timeFrom,
+        timeRanges,
+      });
+      wrongToTime = invalidToTime;
+      wrongFromTime = invalidFromTime;
+    } else if (name === 'timeFrom') {
+      const { invalidToTime, invalidFromTime } = isTimeInvalid({
+        [name]: value,
+        timeTo,
+        timeRanges,
+      });
+      wrongToTime = invalidToTime;
+      wrongFromTime = invalidFromTime;
     }
 
-    if (invalidTime || (nameRequired && !location)) {
+    if (wrongToTime) {
+      setInvalidToTime(true);
+    } else {
+      setInvalidToTime(false);
+    }
+
+    if (wrongFromTime) {
+      setInvalidFromTime(true);
+    } else {
+      setInvalidFromTime(false);
+    }
+
+    if (wrongFromTime || wrongToTime || (nameRequired && !location)) {
       setValidInput(false);
     } else {
+      setInvalidFromTime(false);
       setInvalidToTime(false);
       setValidInput(true);
     }
@@ -178,35 +236,6 @@ const _TimelineForm = ({
     );
   };
 
-  const isTimeInvalid = ({
-    timeTo,
-    timeFrom,
-  }: {
-    timeTo: string;
-    timeFrom: string;
-  }) => {
-    // time to should always be later than time from
-    const fromTimeObj = new Date(timeFrom);
-    const year = fromTimeObj.getFullYear();
-    const month = fromTimeObj.getMonth();
-    const date = fromTimeObj.getDate();
-
-    const [hourTo, minuteTo] = timeTo.split(':');
-
-    const from = fromTimeObj.getTime();
-    const to = new Date(
-      year,
-      month,
-      date,
-      parseInt(hourTo),
-      parseInt(minuteTo),
-    ).getTime();
-
-    if (to > from) return false;
-
-    return true;
-  };
-
   const reset = () => {
     setShowModal(false);
     setIsLoading(false);
@@ -270,7 +299,9 @@ const _TimelineForm = ({
             From <span className={style.red_text}>*</span>
           </label>
           <input
-            className={`form-control mb-3`}
+            className={`form-control mb-3 ${
+              invalidFromTime ? 'is-invalid' : ''
+            }`}
             type="datetime-local"
             id="timeFrom"
             name="timeFrom"
@@ -279,6 +310,7 @@ const _TimelineForm = ({
             value={formData.timeFrom}
             required
           />
+          <div className="invalid-feedback">The time has been registered</div>
         </div>
         <div className={style.date_to}>
           <label className="form-label" htmlFor="timeTo">
@@ -377,3 +409,56 @@ const mapStateToProps = (
 export const TimelineForm = connect(mapStateToProps, { createEvent })(
   _TimelineForm,
 );
+
+const isTimeInvalid = ({
+  timeTo,
+  timeFrom,
+  timeRanges,
+}: {
+  timeTo: string;
+  timeFrom: string;
+  timeRanges: TimeRange[] | null;
+}) => {
+  const invalidTime = { invalidToTime: false, invalidFromTime: false };
+
+  if (timeFrom) {
+    // timeFrom is changed
+    if (timeRanges) {
+      const time = new Date(timeFrom).getTime();
+      const invalidFrom = timeRanges.some(({ to, from }) => {
+        return time >= from && time <= to;
+      });
+
+      invalidTime.invalidFromTime = invalidFrom;
+    }
+
+    // timeTo is not selected yet
+    if (!timeTo) return invalidTime;
+  } else if (!timeFrom && timeTo) {
+    // timeFrom is not selected
+    return invalidTime;
+  }
+
+  // time to should always be later than time from
+  const fromTimeObj = new Date(timeFrom);
+  const year = fromTimeObj.getFullYear();
+  const month = fromTimeObj.getMonth();
+  const date = fromTimeObj.getDate();
+
+  const [hourTo, minuteTo] = timeTo.split(':');
+
+  const from = fromTimeObj.getTime();
+  const to = new Date(
+    year,
+    month,
+    date,
+    parseInt(hourTo),
+    parseInt(minuteTo),
+  ).getTime();
+
+  if (to <= from) {
+    invalidTime.invalidToTime = true;
+  }
+
+  return invalidTime;
+};
