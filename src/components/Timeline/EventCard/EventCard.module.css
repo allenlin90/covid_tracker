@@ -1,8 +1,8 @@
 .event {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 5.2rem 0.5fr 4fr;
-      grid-template-columns: 5.2rem 0.5fr 4fr;
+  -ms-grid-columns: 5.6rem 1rem calc(100% - 7rem);
+      grid-template-columns: 5.6rem 1rem calc(100% - 7rem);
 }
 
 .event_timestamp {
