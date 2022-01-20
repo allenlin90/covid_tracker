@@ -8,6 +8,7 @@ import { ResultText } from '../../ResultText';
 
 import { createEvent, Event, Patient } from '../../../store/actions';
 import { StoreState } from '../../../store/reducers';
+import { dateCompiler } from '../../../assests/helpers';
 
 export interface LocationType {
   name: string;
@@ -134,8 +135,6 @@ const _TimelineForm = ({
     });
     setIsLoading(false);
 
-    console.log(response);
-
     if (response) {
       setIsRequestDone(true);
     }
@@ -208,13 +207,6 @@ const _TimelineForm = ({
     return true;
   };
 
-  const dateCompiler = (dateStr: string = ''): string => {
-    const timeObj = new Date(dateStr);
-    return `${timeObj.getFullYear()}/${
-      timeObj.getMonth() + 1
-    }/${timeObj.getDate()} - ${timeObj.getHours()}:${timeObj.getMinutes()}`;
-  };
-
   const reset = () => {
     setShowModal(false);
     setIsLoading(false);
@@ -253,7 +245,7 @@ const _TimelineForm = ({
               From Date: {dateCompiler(formData.timeFrom)}
             </li>
             <li className="list-group-item">To Time: {formData.timeTo}</li>
-            <li className="list-group-item">Detail: {formData.detail}</li>
+            <li className={`list-group-item`}>Detail: {formData.detail}</li>
             <li className="list-group-item">
               Location Type: {formData.locationType}
             </li>

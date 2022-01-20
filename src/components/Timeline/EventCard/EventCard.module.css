@@ -1,0 +1,151 @@
+.event {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 5.2rem 0.5fr 4fr;
+      grid-template-columns: 5.2rem 0.5fr 4fr;
+}
+
+.event_timestamp {
+  color: var(--yellow);
+  margin-top: 1rem;
+}
+
+.event_line {
+  position: relative;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  width: 2px;
+  background-color: var(--light-blue);
+}
+
+.event_line::before {
+  content: '';
+  position: absolute;
+  top: 1.35rem;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  background-color: var(--yellow);
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+}
+
+.event_wrapper {
+  position: relative;
+  background-color: var(--light-blue);
+  border-radius: 0.6rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  padding: 0.6rem;
+}
+
+.event_wrapper::before {
+  content: '';
+  position: absolute;
+  background-color: var(--light-blue);
+  width: 1rem;
+  height: 1rem;
+  left: -0.8rem;
+  top: 1.3rem;
+  -webkit-clip-path: polygon(0 50%, 100% 100%, 100% 0);
+          clip-path: polygon(0 50%, 100% 100%, 100% 0);
+}
+
+.event_card {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 6rem 3fr;
+      grid-template-columns: 6rem 3fr;
+}
+
+.event_card,
+.event_card * {
+  background-color: transparent;
+}
+
+.event_card__timeslot {
+  color: var(--yellow);
+  white-space: nowrap;
+}
+
+.event_card__detail {
+  max-height: 10rem;
+  overflow: auto;
+}
+
+.event_card__info {
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 576px) {
+  .event_card {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+}
+
+.info {
+  position: relative;
+  margin-right: 1.3rem;
+}
+
+.info__location {
+  font-size: 0.8rem;
+  color: var(--blue);
+  font-weight: bold;
+}
+
+.info__delete {
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  right: -1.3rem;
+  -webkit-transition: all linear 0.2s;
+  transition: all linear 0.2s;
+}
+
+.info__delete:hover {
+  cursor: pointer;
+}
+
+.info__delete:hover i {
+  color: var(--yellow);
+}
+
+@media (max-width: 576px) {
+  .info__delete {
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
+  }
+}
+
+.display_block {
+  display: block;
+}
+
+.display_flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.display_none {
+  display: none;
+}
+
+.bg_blue,
+.bg_blue * {
+  background-color: var(--light-blue);
+  color: var(--white);
+}
+
+.readmore {
+  text-decoration: underline;
+}
+
+.readmore:hover {
+  cursor: pointer;
+  color: var(--yellow);
+}
+/*# sourceMappingURL=EventCard.module.css.map */

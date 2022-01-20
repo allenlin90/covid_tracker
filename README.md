@@ -108,6 +108,7 @@
 3. `React router` could be used when more features are brought in.
 4. Mouse and scrolling effects can be added to enhance user experience.
 5. Only "Bootstrap" layout utilities and some components are used in the project. Other React component/UI library could be used according to project requirements, such as [MUI](https://mui.com/) and [Ant Design](https://ant.design/). Predefined components can cover more on the edge cases.
+6. Throttle and lazy load can be applied to timeline component.
 
 ## 5.4. Data flow 
 1. All App data is fetched and loaded in the initated stage when the user visit the App. The data flow can be optimized for larger data set.

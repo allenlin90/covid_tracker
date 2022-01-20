@@ -25,7 +25,7 @@ class _App extends Component<AppProps> {
 
   componentDidMount() {
     this.props.fetchPatients();
-    // this.props.fetchEvents();
+    this.props.fetchEvents();
   }
 
   onFetchPatients = (): void => {
@@ -48,10 +48,10 @@ class _App extends Component<AppProps> {
           <div className="col-12">
             <h2 className={style.timeline}>Timeline</h2>
           </div>
-          <div className="col-12 col-md-6 col-lg-7">
+          <div className="col-12 col-md-6 col-lg-7 order-2 order-sm-1">
             <Timeline />
           </div>
-          <div className="col-12 col-md-6 col-lg-5">
+          <div className="col-12 col-md-6 col-lg-5 order-1 order-sm-2">
             <EventForm />
           </div>
         </div>

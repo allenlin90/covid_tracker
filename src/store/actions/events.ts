@@ -4,11 +4,12 @@ import { ActionTypes } from './types';
 
 export interface Event {
   _id?: string;
-  timeFrom?: string;
-  timeTo?: string;
-  detail?: string;
-  location?: string;
-  locationType?: string;
+  timeFrom: string;
+  timeTo: string;
+  detail: string;
+  location: string;
+  locationType: string;
+  patient_id?: string;
 }
 
 export interface FetchEventsAction {
@@ -55,7 +56,7 @@ export const fetchEvents = (id: string = '') => {
   };
 };
 
-export const createEvent = (event: Event = {}) => {
+export const createEvent = (event: Event) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.post('/event', event);
@@ -79,7 +80,7 @@ export const createEvent = (event: Event = {}) => {
   };
 };
 
-export const updateEvent = (event: Event = {}) => {
+export const updateEvent = (event: Event) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.patch(`/event/${event._id}`, event);

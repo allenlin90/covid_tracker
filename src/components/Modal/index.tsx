@@ -20,7 +20,7 @@ export const Modal = ({
   trigger,
   placeHolder = false,
   title = 'Modal title',
-  content = '...',
+  content = '',
   confirmBtn,
   closeModal,
   persist = false,
@@ -72,7 +72,10 @@ export const Modal = ({
           }`}
         >
           <header className={style.header}>{title}</header>
-          <section className={style.section}>{children}</section>
+          <section className={style.section}>
+            {children}
+            {content}
+          </section>
           <menu className={style.menu}>
             <button
               type="button"
