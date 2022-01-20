@@ -13,6 +13,8 @@ import {
   DeletePatientAction,
 } from './patients';
 
+import { ToggleOverlayAction } from './overlay';
+
 export enum ActionTypes {
   selectPatient = 'SELECT_PATIENT',
   fetchPatients = 'FETCH_PATIENTS',
@@ -23,7 +25,10 @@ export enum ActionTypes {
   createEvent = 'CREATE_EVENT',
   updateEvent = 'UPDATE_EVENT',
   deleteEvent = 'DELETE_EVENT',
+  toggleOverlay = 'TOGGLE_OVERLAY',
 }
+
+export type OverlayActions = ToggleOverlayAction;
 
 export type EventActions =
   | FetchEventsAction
