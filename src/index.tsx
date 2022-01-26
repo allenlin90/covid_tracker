@@ -9,17 +9,17 @@ import { reducers } from './store/reducers';
 // axios global config
 import axios from 'axios';
 const endpoint = 'https://covide-tracker.herokuapp.com';
-// axios.defaults.baseURL = 'http://localhost:3001';
+// const endpoint = 'http://localhost:3001';
 axios.defaults.baseURL = endpoint;
 
 const store = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware(thunk)),
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.querySelector('#root'),
+  document.querySelector('#root')
 );

@@ -71,7 +71,7 @@ const _TimelineForm = ({
   useEffect(() => {
     // check all time ranges in the event
     const patientEvents = events.filter(
-      (event: Event) => event.patient_id === selectedPatient?._id,
+      (event: Event) => event.patient_id === selectedPatient?._id
     );
     const patientTimeRanges = patientEvents.map((event: Event) => {
       const { timeFrom, timeTo } = event;
@@ -83,7 +83,7 @@ const _TimelineForm = ({
     });
 
     setTimeRanges(patientTimeRanges);
-  }, [selectedPatient]);
+  }, [selectedPatient, events]);
 
   useEffect(() => {
     // check if all inputs are valid and ready to proceed
@@ -118,7 +118,7 @@ const _TimelineForm = ({
   const onChangeHandler = (
     event: React.FormEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
+    >
   ) => {
     const { name, value } = event.currentTarget;
     const { timeFrom, timeTo, location, locationType } = formData;
@@ -187,7 +187,7 @@ const _TimelineForm = ({
       timeFrom: new Date(formData.timeFrom).toISOString(),
       timeTo: dateObjectCreate(
         formData.timeFrom,
-        formData.timeTo,
+        formData.timeTo
       ).toISOString(),
       patient_id: selectedPatient?._id,
     });
@@ -213,9 +213,9 @@ const _TimelineForm = ({
 
     return (
       <button
-        type="button"
-        form="create_event"
-        className="btn btn-warning ms-3"
+        type='button'
+        form='create_event'
+        className='btn btn-warning ms-3'
         onClick={submitHandler}
       >
         Add
@@ -232,7 +232,7 @@ const _TimelineForm = ({
       timeObj.getMonth(),
       timeObj.getDate(),
       parseInt(hour),
-      parseInt(minute),
+      parseInt(minute)
     );
   };
 
@@ -256,7 +256,7 @@ const _TimelineForm = ({
         show={showModal}
         closeModal={() => setShowModal(false)}
         confirmBtn={confirmButton()}
-        title="Add Event"
+        title='Add Event'
       >
         <>
           <Spinner isLoading={isLoading} />
@@ -270,12 +270,12 @@ const _TimelineForm = ({
               isLoading || isRequestSent ? style.display_none : ''
             }`}
           >
-            <li className="list-group-item">
+            <li className='list-group-item'>
               From Date: {dateCompiler(formData.timeFrom)}
             </li>
-            <li className="list-group-item">To Time: {formData.timeTo}</li>
+            <li className='list-group-item'>To Time: {formData.timeTo}</li>
             <li className={`list-group-item`}>Detail: {formData.detail}</li>
-            <li className="list-group-item">
+            <li className='list-group-item'>
               Location Type: {formData.locationType}
             </li>
             <li
@@ -292,52 +292,52 @@ const _TimelineForm = ({
         className={`${style.timeline_form} ${style.form_display} ${
           hideConfirmBtn ? style.grid_3_row : ''
         }`}
-        id="create_event"
+        id='create_event'
       >
         <div className={`${style.date_from}`}>
-          <label className="form-label" htmlFor="timeFrom">
+          <label className='form-label' htmlFor='timeFrom'>
             From <span className={style.red_text}>*</span>
           </label>
           <input
             className={`form-control mb-3 ${
               invalidFromTime ? 'is-invalid' : ''
             }`}
-            type="datetime-local"
-            id="timeFrom"
-            name="timeFrom"
+            type='datetime-local'
+            id='timeFrom'
+            name='timeFrom'
             disabled={disabled}
             onChange={onChangeHandler}
             value={formData.timeFrom}
             required
           />
-          <div className="invalid-feedback">The time has been registered</div>
+          <div className='invalid-feedback'>The time has been registered</div>
         </div>
         <div className={style.date_to}>
-          <label className="form-label" htmlFor="timeTo">
+          <label className='form-label' htmlFor='timeTo'>
             To <span className={style.red_text}>*</span>
           </label>
           <input
             className={`form-control mb-3 ${invalidToTime ? 'is-invalid' : ''}`}
-            type="time"
-            id="timeTo"
-            name="timeTo"
+            type='time'
+            id='timeTo'
+            name='timeTo'
             disabled={disabled}
             onChange={onChangeHandler}
             value={formData.timeTo}
             required
           />
-          <div className="invalid-feedback">
+          <div className='invalid-feedback'>
             To must be later than time from
           </div>
         </div>
         <div className={style.detail}>
-          <label className="form-label" htmlFor="detail">
+          <label className='form-label' htmlFor='detail'>
             Detail <span className={style.red_text}>*</span>
           </label>
           <textarea
             className={`form-control mb-3`}
-            name="detail"
-            id="detail"
+            name='detail'
+            id='detail'
             disabled={disabled}
             rows={5}
             onChange={onChangeHandler}
@@ -346,13 +346,13 @@ const _TimelineForm = ({
           ></textarea>
         </div>
         <div className={style.location_type}>
-          <label className="form-label" htmlFor="locationType">
+          <label className='form-label' htmlFor='locationType'>
             Location Type <span className={style.red_text}>*</span>
           </label>
           <select
             className={`form-control mb-3`}
-            name="locationType"
-            id="locationType"
+            name='locationType'
+            id='locationType'
             disabled={disabled}
             onChange={onChangeHandler}
             value={formData.locationType}
@@ -362,7 +362,7 @@ const _TimelineForm = ({
           </select>
         </div>
         <div className={style.location_name}>
-          <label className="form-label" htmlFor="location">
+          <label className='form-label' htmlFor='location'>
             Location Name{' '}
             <span
               className={`${style.red_text} ${
@@ -374,9 +374,9 @@ const _TimelineForm = ({
           </label>
           <input
             className={`form-control mb-3`}
-            type="text"
-            id="location"
-            name="location"
+            type='text'
+            id='location'
+            name='location'
             disabled={disabled}
             onChange={onChangeHandler}
             value={formData.location}
@@ -389,7 +389,7 @@ const _TimelineForm = ({
         >
           <button
             className={`btn btn-warning ${validInput ? '' : 'disabled'}`}
-            type="button"
+            type='button'
             onClick={() => setShowModal(true)}
           >
             + Add Entry
@@ -401,13 +401,13 @@ const _TimelineForm = ({
 };
 
 const mapStateToProps = (
-  state: StoreState,
+  state: StoreState
 ): { selectedPatient: Patient | null; events: Event[] } => {
   return { selectedPatient: state.selectedPatient, events: state.events };
 };
 
 export const TimelineForm = connect(mapStateToProps, { createEvent })(
-  _TimelineForm,
+  _TimelineForm
 );
 
 const isTimeInvalid = ({
@@ -453,7 +453,7 @@ const isTimeInvalid = ({
     month,
     date,
     parseInt(hourTo),
-    parseInt(minuteTo),
+    parseInt(minuteTo)
   ).getTime();
 
   if (to <= from) {

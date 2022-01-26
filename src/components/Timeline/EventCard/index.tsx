@@ -98,10 +98,10 @@ const _EventCard = ({
       const toMinute = new Date(timeTo).getMinutes();
 
       const fromHourStr = `${fromHour < 10 ? '0' + fromHour : fromHour}:${
-        fromMinute < 10 ? '0' : fromMinute
+        fromMinute < 10 ? '0' + fromMinute : fromMinute
       }`;
       const toHourStr = `${toHour < 10 ? '0' + toHour : toHour}:${
-        toMinute < 10 ? '0' : toMinute
+        toMinute < 10 ? '0' + toMinute : toMinute
       }`;
 
       return (
@@ -139,14 +139,14 @@ const _EventCard = ({
           isLoading || isRequestSent ? style.display_none : ''
         }`}
       >
-        <li className="list-group-item">
+        <li className='list-group-item'>
           From Date: {dateCompiler(selectedEvent.timeFrom)}
         </li>
-        <li className="list-group-item">
+        <li className='list-group-item'>
           To Time: {dateCompiler(selectedEvent.timeTo)}
         </li>
         <li className={`list-group-item`}>Detail: {selectedEvent.detail}</li>
-        <li className="list-group-item">
+        <li className='list-group-item'>
           Location Type: {selectedEvent.locationType}
         </li>
         <li
@@ -163,8 +163,8 @@ const _EventCard = ({
   const deleteBtn = (() => {
     return (
       <button
-        type="button"
-        className="btn btn-warning ms-3"
+        type='button'
+        className='btn btn-warning ms-3'
         onClick={removeEventHandler}
       >
         Delete
@@ -178,7 +178,7 @@ const _EventCard = ({
         show={showModal}
         closeModal={() => setShowModal(false)}
         confirmBtn={selectedEvent && !isRequestSent ? deleteBtn : null}
-        title="Remove event"
+        title='Remove event'
       >
         <>
           <Spinner isLoading={isLoading} />
@@ -198,7 +198,7 @@ const _EventCard = ({
       <Modal
         show={showDetialModal}
         closeModal={() => setShowDetialModal(false)}
-        title="Event detail"
+        title='Event detail'
         content={selectedEvent ? selectedEvent.detail : ''}
       ></Modal>
     </>

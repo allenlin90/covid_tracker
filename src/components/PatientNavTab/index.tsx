@@ -29,19 +29,24 @@ const _PatientNavTab = ({
   useEffect(() => {
     if (patients.length) {
       // select the last patient in the list when it's updated
-      const patient = patients[patients.length - 1];
-      selectPatient(patient);
+      if (!selectedPatient) {
+        const patient = patients[patients.length - 1];
+        selectPatient({ patient });
+      } else {
+        const { _id } = selectedPatient;
+        const patient = patients.find((patient) => patient._id === _id);
+        selectPatient({ ...patient });
+      }
     }
   }, [patients]);
-  useEffect(() => {}, [selectedPatient]);
 
   const confirmAdding = (): JSX.Element | undefined => {
     if (!isRequestSent) {
       return (
         <button
-          className="btn btn-warning ms-3"
-          type="submit"
-          form="new_patient"
+          className='btn btn-warning ms-3'
+          type='submit'
+          form='new_patient'
         >
           Create
         </button>
@@ -80,7 +85,7 @@ const _PatientNavTab = ({
   return (
     <nav>
       <Modal
-        title="Create New Patient"
+        title='Create New Patient'
         show={showModal}
         closeModal={closeModal}
         confirmBtn={confirmAdding()}
@@ -103,11 +108,11 @@ const _PatientNavTab = ({
 };
 
 const mapStateToProps = (
-  state: StoreState,
+  state: StoreState
 ): { selectedPatient: Patient | null; patients: Patient[] } => {
   return { selectedPatient: state.selectedPatient, patients: state.patients };
 };
 
 export const PatientNavTab = connect(mapStateToProps, { selectPatient })(
-  _PatientNavTab,
+  _PatientNavTab
 );
